@@ -1,0 +1,387 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"><title>js学习教程 | 青柠檬老爸的blog</title><meta name="description" content="js学习教程"><meta name="keywords" content="js"><meta name="author" content="Eric Qin"><meta name="copyright" content="Eric Qin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/lemon.png"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="js学习教程"><meta name="twitter:description" content="js学习教程"><meta name="twitter:image" content="https://cdn.pixabay.com/photo/2015/10/18/18/07/android-994910_1280.jpg"><meta property="og:type" content="article"><meta property="og:title" content="js学习教程"><meta property="og:url" content="http://yoursite.com/2018/04/24/javascript-learning/"><meta property="og:site_name" content="青柠檬老爸的blog"><meta property="og:description" content="js学习教程"><meta property="og:image" content="https://cdn.pixabay.com/photo/2015/10/18/18/07/android-994910_1280.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
+
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://yoursite.com/2018/04/24/javascript-learning/"><link rel="prev" title="rabbitmq file descriptors调整" href="http://yoursite.com/2018/12/18/modify-rabbitmq-server-file-descriptors/"><link rel="next" title="gRPC框架简介" href="http://yoursite.com/2018/03/28/gRPC/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  isHome: false,
+  isPost: true
+  
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><header> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">青柠檬老爸的blog</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div></div></span></div></header><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/lemon.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">16</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">13</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">Catalog</div><div class="sidebar-toc__content"><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#JavaScript简介"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">JavaScript简介</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JS是脚本语言"><span class="toc_mobile_items-number">1.1.</span> <span class="toc_mobile_items-text">JS是脚本语言</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JS能干什么"><span class="toc_mobile_items-number">1.2.</span> <span class="toc_mobile_items-text">JS能干什么</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#JavaScript的用法"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text">JavaScript的用法</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript函数和事件"><span class="toc_mobile_items-number">2.1.</span> <span class="toc_mobile_items-text">JavaScript函数和事件</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript脚本存放位置"><span class="toc_mobile_items-number">2.2.</span> <span class="toc_mobile_items-text">JavaScript脚本存放位置</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#JavaScript的输出"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text">JavaScript的输出</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#JavaScript的语法"><span class="toc_mobile_items-number">4.</span> <span class="toc_mobile_items-text">JavaScript的语法</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript的字面量"><span class="toc_mobile_items-number">4.1.</span> <span class="toc_mobile_items-text">JavaScript的字面量</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript变量"><span class="toc_mobile_items-number">4.2.</span> <span class="toc_mobile_items-text">JavaScript变量</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript的操作符"><span class="toc_mobile_items-number">4.3.</span> <span class="toc_mobile_items-text">JavaScript的操作符</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript注释"><span class="toc_mobile_items-number">4.4.</span> <span class="toc_mobile_items-text">JavaScript注释</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#代码行拆分"><span class="toc_mobile_items-number">4.5.</span> <span class="toc_mobile_items-text">代码行拆分</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript的数据类型"><span class="toc_mobile_items-number">4.6.</span> <span class="toc_mobile_items-text">JavaScript的数据类型</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript的对象"><span class="toc_mobile_items-number">4.7.</span> <span class="toc_mobile_items-text">JavaScript的对象</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript的作用域"><span class="toc_mobile_items-number">4.8.</span> <span class="toc_mobile_items-text">JavaScript的作用域</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript事件"><span class="toc_mobile_items-number">4.9.</span> <span class="toc_mobile_items-text">JavaScript事件</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#常见的HTML事件"><span class="toc_mobile_items-number">4.9.1.</span> <span class="toc_mobile_items-text">常见的HTML事件</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript的循环"><span class="toc_mobile_items-number">4.10.</span> <span class="toc_mobile_items-text">JavaScript的循环</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript的标签与Break，Continue的使用"><span class="toc_mobile_items-number">4.11.</span> <span class="toc_mobile_items-text">JavaScript的标签与Break，Continue的使用</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#null和undefined的区别"><span class="toc_mobile_items-number">4.12.</span> <span class="toc_mobile_items-text">null和undefined的区别</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript数据类型"><span class="toc_mobile_items-number">4.13.</span> <span class="toc_mobile_items-text">JavaScript数据类型</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#使用typeof操作符查看数据类型"><span class="toc_mobile_items-number">4.13.1.</span> <span class="toc_mobile_items-text">使用typeof操作符查看数据类型</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#constructor-属性"><span class="toc_mobile_items-number">4.13.2.</span> <span class="toc_mobile_items-text">constructor 属性</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript-Json"><span class="toc_mobile_items-number">4.14.</span> <span class="toc_mobile_items-text">JavaScript Json</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript验证API"><span class="toc_mobile_items-number">4.15.</span> <span class="toc_mobile_items-text">JavaScript验证API</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#约束验证-DOM-方法"><span class="toc_mobile_items-number">4.15.1.</span> <span class="toc_mobile_items-text">约束验证 DOM 方法</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#约束验证-DOM-属性"><span class="toc_mobile_items-number">4.15.2.</span> <span class="toc_mobile_items-text">约束验证 DOM 属性</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#Validity-属性"><span class="toc_mobile_items-number">4.15.3.</span> <span class="toc_mobile_items-text">Validity 属性</span></a></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript函数"><span class="toc_mobile_items-number">4.16.</span> <span class="toc_mobile_items-text">JavaScript函数</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#函数定义"><span class="toc_mobile_items-number">4.16.1.</span> <span class="toc_mobile_items-text">函数定义</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#Function-构造函数"><span class="toc_mobile_items-number">4.16.2.</span> <span class="toc_mobile_items-text">Function()构造函数</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#函数提升-Hoisting"><span class="toc_mobile_items-number">4.16.3.</span> <span class="toc_mobile_items-text">函数提升(Hoisting)</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#自调用函数"><span class="toc_mobile_items-number">4.16.4.</span> <span class="toc_mobile_items-text">自调用函数</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#函数也是对象"><span class="toc_mobile_items-number">4.16.5.</span> <span class="toc_mobile_items-text">函数也是对象</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#Arguments对象"><span class="toc_mobile_items-number">4.16.6.</span> <span class="toc_mobile_items-text">Arguments对象</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#参数传递"><span class="toc_mobile_items-number">4.16.7.</span> <span class="toc_mobile_items-text">参数传递</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#函数调用"><span class="toc_mobile_items-number">4.16.8.</span> <span class="toc_mobile_items-text">函数调用</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#作为一个函数直接调用"><span class="toc_mobile_items-number">4.16.8.1.</span> <span class="toc_mobile_items-text">作为一个函数直接调用</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#全局对象"><span class="toc_mobile_items-number">4.16.8.2.</span> <span class="toc_mobile_items-text">全局对象</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#函数作为方法调用"><span class="toc_mobile_items-number">4.16.8.3.</span> <span class="toc_mobile_items-text">函数作为方法调用</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#使用构造函数调用函数"><span class="toc_mobile_items-number">4.16.8.4.</span> <span class="toc_mobile_items-text">使用构造函数调用函数</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-4"><a class="toc_mobile_items-link" href="#作为函数方法调用函数"><span class="toc_mobile_items-number">4.16.8.5.</span> <span class="toc_mobile_items-text">作为函数方法调用函数</span></a></li></ol></li></ol></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#JavaScript-HTML-DOM"><span class="toc_mobile_items-number">5.</span> <span class="toc_mobile_items-text">JavaScript HTML DOM</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#查找HTML元素"><span class="toc_mobile_items-number">5.1.</span> <span class="toc_mobile_items-text">查找HTML元素</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#修改HTML元素内容"><span class="toc_mobile_items-number">5.2.</span> <span class="toc_mobile_items-text">修改HTML元素内容</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#改变HTML的样式"><span class="toc_mobile_items-number">5.3.</span> <span class="toc_mobile_items-text">改变HTML的样式</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#HTML-DOM事件"><span class="toc_mobile_items-number">5.4.</span> <span class="toc_mobile_items-text">HTML DOM事件</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#HTML元素（节点）"><span class="toc_mobile_items-number">5.5.</span> <span class="toc_mobile_items-text">HTML元素（节点）</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#创建新的HTML元素"><span class="toc_mobile_items-number">5.5.1.</span> <span class="toc_mobile_items-text">创建新的HTML元素</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-3"><a class="toc_mobile_items-link" href="#删除已有的HTML元素"><span class="toc_mobile_items-number">5.5.2.</span> <span class="toc_mobile_items-text">删除已有的HTML元素</span></a></li></ol></li></ol></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#JavaScript对象"><span class="toc_mobile_items-number">6.</span> <span class="toc_mobile_items-text">JavaScript对象</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript对象的创建"><span class="toc_mobile_items-number">6.1.</span> <span class="toc_mobile_items-text">JavaScript对象的创建</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#JavaScript的for-in循环"><span class="toc_mobile_items-number">6.2.</span> <span class="toc_mobile_items-text">JavaScript的for&#x2F;in循环</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript简介"><span class="toc-number">1.</span> <span class="toc-text">JavaScript简介</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JS是脚本语言"><span class="toc-number">1.1.</span> <span class="toc-text">JS是脚本语言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JS能干什么"><span class="toc-number">1.2.</span> <span class="toc-text">JS能干什么</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript的用法"><span class="toc-number">2.</span> <span class="toc-text">JavaScript的用法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript函数和事件"><span class="toc-number">2.1.</span> <span class="toc-text">JavaScript函数和事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript脚本存放位置"><span class="toc-number">2.2.</span> <span class="toc-text">JavaScript脚本存放位置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript的输出"><span class="toc-number">3.</span> <span class="toc-text">JavaScript的输出</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript的语法"><span class="toc-number">4.</span> <span class="toc-text">JavaScript的语法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript的字面量"><span class="toc-number">4.1.</span> <span class="toc-text">JavaScript的字面量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript变量"><span class="toc-number">4.2.</span> <span class="toc-text">JavaScript变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript的操作符"><span class="toc-number">4.3.</span> <span class="toc-text">JavaScript的操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript注释"><span class="toc-number">4.4.</span> <span class="toc-text">JavaScript注释</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码行拆分"><span class="toc-number">4.5.</span> <span class="toc-text">代码行拆分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript的数据类型"><span class="toc-number">4.6.</span> <span class="toc-text">JavaScript的数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript的对象"><span class="toc-number">4.7.</span> <span class="toc-text">JavaScript的对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript的作用域"><span class="toc-number">4.8.</span> <span class="toc-text">JavaScript的作用域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript事件"><span class="toc-number">4.9.</span> <span class="toc-text">JavaScript事件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常见的HTML事件"><span class="toc-number">4.9.1.</span> <span class="toc-text">常见的HTML事件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript的循环"><span class="toc-number">4.10.</span> <span class="toc-text">JavaScript的循环</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript的标签与Break，Continue的使用"><span class="toc-number">4.11.</span> <span class="toc-text">JavaScript的标签与Break，Continue的使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#null和undefined的区别"><span class="toc-number">4.12.</span> <span class="toc-text">null和undefined的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript数据类型"><span class="toc-number">4.13.</span> <span class="toc-text">JavaScript数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用typeof操作符查看数据类型"><span class="toc-number">4.13.1.</span> <span class="toc-text">使用typeof操作符查看数据类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#constructor-属性"><span class="toc-number">4.13.2.</span> <span class="toc-text">constructor 属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript-Json"><span class="toc-number">4.14.</span> <span class="toc-text">JavaScript Json</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript验证API"><span class="toc-number">4.15.</span> <span class="toc-text">JavaScript验证API</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#约束验证-DOM-方法"><span class="toc-number">4.15.1.</span> <span class="toc-text">约束验证 DOM 方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#约束验证-DOM-属性"><span class="toc-number">4.15.2.</span> <span class="toc-text">约束验证 DOM 属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Validity-属性"><span class="toc-number">4.15.3.</span> <span class="toc-text">Validity 属性</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript函数"><span class="toc-number">4.16.</span> <span class="toc-text">JavaScript函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#函数定义"><span class="toc-number">4.16.1.</span> <span class="toc-text">函数定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Function-构造函数"><span class="toc-number">4.16.2.</span> <span class="toc-text">Function()构造函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数提升-Hoisting"><span class="toc-number">4.16.3.</span> <span class="toc-text">函数提升(Hoisting)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自调用函数"><span class="toc-number">4.16.4.</span> <span class="toc-text">自调用函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数也是对象"><span class="toc-number">4.16.5.</span> <span class="toc-text">函数也是对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Arguments对象"><span class="toc-number">4.16.6.</span> <span class="toc-text">Arguments对象</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数传递"><span class="toc-number">4.16.7.</span> <span class="toc-text">参数传递</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数调用"><span class="toc-number">4.16.8.</span> <span class="toc-text">函数调用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#作为一个函数直接调用"><span class="toc-number">4.16.8.1.</span> <span class="toc-text">作为一个函数直接调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#全局对象"><span class="toc-number">4.16.8.2.</span> <span class="toc-text">全局对象</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#函数作为方法调用"><span class="toc-number">4.16.8.3.</span> <span class="toc-text">函数作为方法调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用构造函数调用函数"><span class="toc-number">4.16.8.4.</span> <span class="toc-text">使用构造函数调用函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#作为函数方法调用函数"><span class="toc-number">4.16.8.5.</span> <span class="toc-text">作为函数方法调用函数</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript-HTML-DOM"><span class="toc-number">5.</span> <span class="toc-text">JavaScript HTML DOM</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#查找HTML元素"><span class="toc-number">5.1.</span> <span class="toc-text">查找HTML元素</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改HTML元素内容"><span class="toc-number">5.2.</span> <span class="toc-text">修改HTML元素内容</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#改变HTML的样式"><span class="toc-number">5.3.</span> <span class="toc-text">改变HTML的样式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML-DOM事件"><span class="toc-number">5.4.</span> <span class="toc-text">HTML DOM事件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HTML元素（节点）"><span class="toc-number">5.5.</span> <span class="toc-text">HTML元素（节点）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建新的HTML元素"><span class="toc-number">5.5.1.</span> <span class="toc-text">创建新的HTML元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除已有的HTML元素"><span class="toc-number">5.5.2.</span> <span class="toc-text">删除已有的HTML元素</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#JavaScript对象"><span class="toc-number">6.</span> <span class="toc-text">JavaScript对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript对象的创建"><span class="toc-number">6.1.</span> <span class="toc-text">JavaScript对象的创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JavaScript的for-in循环"><span class="toc-number">6.2.</span> <span class="toc-text">JavaScript的for&#x2F;in循环</span></a></li></ol></li></ol></div></div></div><main id="content-outer"><div id="top-container" style="background-image: url(https://cdn.pixabay.com/photo/2015/10/18/18/07/android-994910_1280.jpg)"><div id="post-info"><div id="post-title"><div class="posttitle">js学习教程</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> Created 2018-04-24<span class="post-meta__separator">|</span><i class="fa fa-history fa-fw" aria-hidden="true"></i> Updated 2018-04-24</time><div class="post-meta-wordcount"><div class="post-meta-pv-cv"><span><i class="fa fa-eye post-meta__icon fa-fw" aria-hidden="true"> </i>Post View:</span><span id="busuanzi_value_page_pv"></span></div></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><p>JavaScript学习教程<br>本文只是对js学习的一些记录，内容非常简单，对js有了解的人可以直接略过</p>
+<h1 id="JavaScript简介"><a href="#JavaScript简介" class="headerlink" title="JavaScript简介"></a>JavaScript简介</h1><h2 id="JS是脚本语言"><a href="#JS是脚本语言" class="headerlink" title="JS是脚本语言"></a>JS是脚本语言</h2><ul>
+<li>js是轻量级的脚本语言</li>
+<li>可插入html页面的编码代码</li>
+<li>由浏览器执行</li>
+<li>简单容易学习<a id="more"></a>
+<h2 id="JS能干什么"><a href="#JS能干什么" class="headerlink" title="JS能干什么"></a>JS能干什么</h2></li>
+<li>直接写入HTML输出流</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.write(&quot;&lt;h1&gt;test&lt;&#x2F;h1&gt;&quot;);</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>对事件的反应</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;button type&#x3D;&quot;button&quot; onclick&#x3D;&quot;alert(&#39;欢迎!&#39;)&quot;&gt;点我!&lt;&#x2F;button&gt;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>改变HTML内容</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;document.getElementById(&quot;demo&quot;)  &#x2F;&#x2F;查找元素</span><br><span class="line">x.innerHTML&#x3D;&quot;Hello JavaScript&quot;;    &#x2F;&#x2F;改变内容</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>改变 HTML 图像</li>
+<li>改变 HTML 样式</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x&#x3D;document.getElementById(&quot;demo&quot;)  &#x2F;&#x2F;找到元素 </span><br><span class="line">x.style.color&#x3D;&quot;#ff0000&quot;;           &#x2F;&#x2F;改变样式</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>验证输入</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if isNaN(x) &#123;alert(&quot;不是数字&quot;)&#125;;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="JavaScript的用法"><a href="#JavaScript的用法" class="headerlink" title="JavaScript的用法"></a>JavaScript的用法</h1><p>JS脚本必须位于<script>和</script>标签之间，脚本可以放在HTML页面的<head>和</head><body>中</body></p>
+<h2 id="JavaScript函数和事件"><a href="#JavaScript函数和事件" class="headerlink" title="JavaScript函数和事件"></a>JavaScript函数和事件</h2><p>一般js会在页面加载时执行。通常，我们需要在某个事件发生时执行代码，比如当用户点击按钮时。如果我们把 JavaScript 代码放入函数中，就可以在事件发生时调用该函数</p>
+<h2 id="JavaScript脚本存放位置"><a href="#JavaScript脚本存放位置" class="headerlink" title="JavaScript脚本存放位置"></a>JavaScript脚本存放位置</h2><ul>
+<li><head>中的js函数</head></li>
+<li><body>中的js函数</body></li>
+<li>外部的js函数，通过src属性指定js文件</li>
+</ul>
+<h1 id="JavaScript的输出"><a href="#JavaScript的输出" class="headerlink" title="JavaScript的输出"></a>JavaScript的输出</h1><ul>
+<li>使用windows.alert()弹出告警框</li>
+<li>使用document.write()方法将内容写入到HTML中</li>
+<li>使用innerHTML写入到HTML元素中</li>
+<li>使用console.log()写入到控制台中</li>
+</ul>
+<h1 id="JavaScript的语法"><a href="#JavaScript的语法" class="headerlink" title="JavaScript的语法"></a>JavaScript的语法</h1><h2 id="JavaScript的字面量"><a href="#JavaScript的字面量" class="headerlink" title="JavaScript的字面量"></a>JavaScript的字面量</h2><ul>
+<li>数字，整数，小数，科学计数(e)</li>
+<li>字符串，以””或者’’</li>
+<li>表达式字面量，3 + 4</li>
+<li>数组，[1,2,3,4]</li>
+<li>对象(Object)，类似python的字典，{firtName:”John”, lastName:”Qin”, ages:50}</li>
+<li>函数(Function),function(a,b) {return a+b}<h2 id="JavaScript变量"><a href="#JavaScript变量" class="headerlink" title="JavaScript变量"></a>JavaScript变量</h2></li>
+<li>通过关键字var定义</li>
+<li>变量通过变量名访问，字面量是恒定的值<h2 id="JavaScript的操作符"><a href="#JavaScript的操作符" class="headerlink" title="JavaScript的操作符"></a>JavaScript的操作符</h2></li>
+<li>赋值，算术和位运算符，=  +  -  *  /</li>
+<li>条件，比较及逻辑运算符， ==  != &lt;  &gt; <h2 id="JavaScript注释"><a href="#JavaScript注释" class="headerlink" title="JavaScript注释"></a>JavaScript注释</h2></li>
+<li>单行注释，使用//后的内容为注释</li>
+<li>多行注释，使用<code>/*</code>和<code>*/</code><h2 id="代码行拆分"><a href="#代码行拆分" class="headerlink" title="代码行拆分"></a>代码行拆分</h2>只能在文本字符串中使用反斜杠对代码行进行换行</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">document.write(&quot;你好 \</span><br><span class="line">世界!&quot;);</span><br></pre></td></tr></table></figure></div>
+<p>不过不能这样拆分</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">document.write \</span><br><span class="line">(&quot;你好 世界!&quot;);</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="JavaScript的数据类型"><a href="#JavaScript的数据类型" class="headerlink" title="JavaScript的数据类型"></a>JavaScript的数据类型</h2><ul>
+<li>数字，字符串，Boolean，数组，对象，Null，未定义(Undefine)</li>
+<li>Undefined 这个值表示变量不含有值。</li>
+<li>可以通过将变量的值设置为 null 来清空变量。<h2 id="JavaScript的对象"><a href="#JavaScript的对象" class="headerlink" title="JavaScript的对象"></a>JavaScript的对象</h2></li>
+<li>{firtName:”John”, lastName:”Qin”, ages:50}</li>
+<li>拥有属性和方法的数据</li>
+<li>方法的定义，methodName: function() { code line}</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var person &#x3D; &#123;</span><br><span class="line">    firstName: &quot;John&quot;,</span><br><span class="line">    lastName : &quot;Doe&quot;,</span><br><span class="line">    id : 5566,</span><br><span class="line">    fullName : function() </span><br><span class="line">    &#123;</span><br><span class="line">       return this.firstName + &quot; &quot; + this.lastName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>方法的访问，object.methodName()<h2 id="JavaScript的作用域"><a href="#JavaScript的作用域" class="headerlink" title="JavaScript的作用域"></a>JavaScript的作用域</h2></li>
+<li>作用域为可访问变量，对象，函数的集合。</li>
+<li>局部变量只能在函数内访问</li>
+<li>全局变量具有全局作用域，在网页所有脚本和函数中均可以使用</li>
+<li>如果变量在函数中没有声明，则为全局变量</li>
+<li>在HTML中，全局变量是window对象，所有的数据变量都属于window对象</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;此处可使用 window.carName</span><br><span class="line"> </span><br><span class="line">function myFunction() &#123;</span><br><span class="line">    carName &#x3D; &quot;Volvo&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="JavaScript事件"><a href="#JavaScript事件" class="headerlink" title="JavaScript事件"></a>JavaScript事件</h2><p>HTML 事件是发生在 HTML 元素上的事情,当在 HTML 页面中使用 JavaScript 时， JavaScript 可以触发这些事件。</p>
+<h3 id="常见的HTML事件"><a href="#常见的HTML事件" class="headerlink" title="常见的HTML事件"></a>常见的HTML事件</h3><ul>
+<li>onchange ：HTML 元素改变</li>
+<li>onclick： 用户点击 HTML 元素</li>
+<li>onmouseover：用户在一个HTML元素上移动鼠标</li>
+<li>onmouseout：用户从一个HTML元素上移开鼠标</li>
+<li>onkeydown： 用户按下键盘按键</li>
+<li>onload： 浏览器已完成页面的加载</li>
+</ul>
+<h2 id="JavaScript的循环"><a href="#JavaScript的循环" class="headerlink" title="JavaScript的循环"></a>JavaScript的循环</h2><ul>
+<li>for循环： 循环代码块一定的次数</li>
+<li>for/in: 循环遍历对象的属性</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person&#x3D;&#123;fname:&quot;John&quot;,lname:&quot;Doe&quot;,age:25&#125;; </span><br><span class="line"> </span><br><span class="line">for (x in person)  &#x2F;&#x2F; x 为属性名</span><br><span class="line">&#123;</span><br><span class="line">    txt&#x3D;txt + person[x];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+<ul>
+<li>while: 当指定的条件为 true 时循环指定的代码块</li>
+<li>do/while: 同样当指定的条件为 true 时循环指定的代码块,但至少执行一次</li>
+</ul>
+<h2 id="JavaScript的标签与Break，Continue的使用"><a href="#JavaScript的标签与Break，Continue的使用" class="headerlink" title="JavaScript的标签与Break，Continue的使用"></a>JavaScript的标签与Break，Continue的使用</h2><ul>
+<li>continue 语句（带有或不带标签引用）只能用在循环中。</li>
+<li>break 语句（不带标签引用），只能用在循环或 switch 中</li>
+<li>通过标签引用，break 语句可用于跳出任何 JavaScript 代码块</li>
+</ul>
+<h2 id="null和undefined的区别"><a href="#null和undefined的区别" class="headerlink" title="null和undefined的区别"></a>null和undefined的区别</h2><p>值相同，类型不同</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typeof undefined             &#x2F;&#x2F; undefined</span><br><span class="line">typeof null                  &#x2F;&#x2F; object</span><br><span class="line">null &#x3D;&#x3D;&#x3D; undefined           &#x2F;&#x2F; false</span><br><span class="line">null &#x3D;&#x3D; undefined            &#x2F;&#x2F; true</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="JavaScript数据类型"><a href="#JavaScript数据类型" class="headerlink" title="JavaScript数据类型"></a>JavaScript数据类型</h2><ul>
+<li>5种不同的数据类型，string ，number，object，boolean，function</li>
+<li>3种不同的对象类型，Date，Object，Aarry</li>
+<li>不含任何值的数据类型，null，undefined</li>
+</ul>
+<h3 id="使用typeof操作符查看数据类型"><a href="#使用typeof操作符查看数据类型" class="headerlink" title="使用typeof操作符查看数据类型"></a>使用typeof操作符查看数据类型</h3><ul>
+<li>NaN的数据类型是number</li>
+<li>数组(Aarry)的数据类型是object</li>
+<li>日期(Date)的数据类型是object</li>
+<li>null的数据类型是object</li>
+<li>未定义的变量的数据类型是undefined</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">typeof &quot;John&quot;                 &#x2F;&#x2F; 返回 string </span><br><span class="line">typeof 3.14                   &#x2F;&#x2F; 返回 number</span><br><span class="line">typeof NaN                    &#x2F;&#x2F; 返回 number</span><br><span class="line">typeof false                  &#x2F;&#x2F; 返回 boolean</span><br><span class="line">typeof [1,2,3,4]              &#x2F;&#x2F; 返回 object</span><br><span class="line">typeof &#123;name:&#39;John&#39;, age:34&#125;  &#x2F;&#x2F; 返回 object</span><br><span class="line">typeof new Date()             &#x2F;&#x2F; 返回 object</span><br><span class="line">typeof function () &#123;&#125;         &#x2F;&#x2F; 返回 function</span><br><span class="line">typeof myCar                  &#x2F;&#x2F; 返回 undefined (如果 myCar 没有声明)</span><br><span class="line">typeof null                   &#x2F;&#x2F; 返回 object</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="constructor-属性"><a href="#constructor-属性" class="headerlink" title="constructor 属性"></a>constructor 属性</h3><p>constructor 属性返回所有 JavaScript 变量的构造函数</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;John&quot;.constructor                 &#x2F;&#x2F; 返回函数 String()  &#123; [native code] &#125;</span><br><span class="line">(3.14).constructor                 &#x2F;&#x2F; 返回函数 Number()  &#123; [native code] &#125;</span><br><span class="line">false.constructor                  &#x2F;&#x2F; 返回函数 Boolean() &#123; [native code] &#125;</span><br><span class="line">[1,2,3,4].constructor              &#x2F;&#x2F; 返回函数 Array()   &#123; [native code] &#125;</span><br><span class="line">&#123;name:&#39;John&#39;, age:34&#125;.constructor  &#x2F;&#x2F; 返回函数 Object()  &#123; [native code] &#125;</span><br><span class="line">new Date().constructor             &#x2F;&#x2F; 返回函数 Date()    &#123; [native code] &#125;</span><br><span class="line">function () &#123;&#125;.constructor         &#x2F;&#x2F; 返回函数 Function()&#123; [native code] &#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>你可以使用 constructor 属性来查看对象是否为数组 (包含字符串 “Array”):</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function isArray(myArray) &#123;</span><br><span class="line">    return myArray.constructor.toString().indexOf(&quot;Array&quot;) &gt; -1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="JavaScript-Json"><a href="#JavaScript-Json" class="headerlink" title="JavaScript Json"></a>JavaScript Json</h2><ul>
+<li>JSON.parse()： 用于将一个 JSON 字符串转换为 JavaScript 对象。</li>
+<li>JSON.stringify()： 用于将 JavaScript 值转换为 JSON 字符串。</li>
+</ul>
+<h2 id="JavaScript验证API"><a href="#JavaScript验证API" class="headerlink" title="JavaScript验证API"></a>JavaScript验证API</h2><h3 id="约束验证-DOM-方法"><a href="#约束验证-DOM-方法" class="headerlink" title="约束验证 DOM 方法"></a>约束验证 DOM 方法</h3><table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">checkValidity()</td>
+<td align="left">如果 input 元素中的数据是合法的返回 true，否则返回 false。</td>
+</tr>
+<tr>
+<td align="left">setCustomValidity()</td>
+<td align="left">设置 input 元素的 validationMessage 属性，用于自定义错误提示信息的方法。使用 setCustomValidity 设置了自定义提示后，validity.customError 就会变成true，则 checkValidity 总是会返回false。如果要重新判断需要取消自定义提示</td>
+</tr>
+</tbody></table>
+<h3 id="约束验证-DOM-属性"><a href="#约束验证-DOM-属性" class="headerlink" title="约束验证 DOM 属性"></a>约束验证 DOM 属性</h3><table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">validity</td>
+<td align="left">布尔属性值，返回 input 输入值是否合法</td>
+</tr>
+<tr>
+<td align="left">validationMessage</td>
+<td align="left">浏览器错误提示信息</td>
+</tr>
+<tr>
+<td align="left">willValidate</td>
+<td align="left">指定 input 是否需要验证</td>
+</tr>
+</tbody></table>
+<h3 id="Validity-属性"><a href="#Validity-属性" class="headerlink" title="Validity 属性"></a>Validity 属性</h3><p>input 元素的 validity 属性包含一系列关于 validity 数据属性:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">customError</td>
+<td align="left">设置为 true, 如果设置了自定义的 validity 信息。</td>
+</tr>
+<tr>
+<td align="left">patternMismatch</td>
+<td align="left">设置为 true, 如果元素的值不匹配它的模式属性。</td>
+</tr>
+<tr>
+<td align="left">rangeOverflow</td>
+<td align="left">设置为 true, 如果元素的值大于设置的最大值。</td>
+</tr>
+<tr>
+<td align="left">rangeUnderflow</td>
+<td align="left">设置为 true, 如果元素的值小于它的最小值。</td>
+</tr>
+<tr>
+<td align="left">stepMismatch</td>
+<td align="left">设置为 true, 如果元素的值不是按照规定的 step 属性设置。</td>
+</tr>
+<tr>
+<td align="left">tooLong</td>
+<td align="left">设置为 true, 如果元素的值超过了 maxLength 属性设置的长度。</td>
+</tr>
+<tr>
+<td align="left">typeMismatch</td>
+<td align="left">设置为 true, 如果元素的值不是预期相匹配的类型。</td>
+</tr>
+<tr>
+<td align="left">valueMissing</td>
+<td align="left">设置为 true，如果元素 (required 属性) 没有值</td>
+</tr>
+<tr>
+<td align="left">valid</td>
+<td align="left">设置为 true，如果元素的值是合法的。</td>
+</tr>
+</tbody></table>
+<h2 id="JavaScript函数"><a href="#JavaScript函数" class="headerlink" title="JavaScript函数"></a>JavaScript函数</h2><h3 id="函数定义"><a href="#函数定义" class="headerlink" title="函数定义"></a>函数定义</h3><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function x(a, b) &#123;</span><br><span class="line">    return a * b </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Function-构造函数"><a href="#Function-构造函数" class="headerlink" title="Function()构造函数"></a>Function()构造函数</h3><p>函数同样可以通过内置的 JavaScript 函数构造器（Function()）定义。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var myFunction &#x3D; new Function(&quot;a&quot;, &quot;b&quot;, &quot;return a * b &quot;)</span><br><span class="line"></span><br><span class="line">var x &#x3D; myFunction(2,3)</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="函数提升-Hoisting"><a href="#函数提升-Hoisting" class="headerlink" title="函数提升(Hoisting)"></a>函数提升(Hoisting)</h3><ul>
+<li>提升（Hoisting）是 JavaScript 默认将当前作用域提升到前面去的的行为。</li>
+<li>提升（Hoisting）应用在变量的声明与函数的声明。</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">myFunction(5);</span><br><span class="line"></span><br><span class="line">function myFunction(y) &#123;</span><br><span class="line">    return y * y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="自调用函数"><a href="#自调用函数" class="headerlink" title="自调用函数"></a>自调用函数</h3><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var x &#x3D; (function (a, b) &#123; return a * b&#125;)(1, 2) &#x2F;&#x2F; 1 * 2</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="函数也是对象"><a href="#函数也是对象" class="headerlink" title="函数也是对象"></a>函数也是对象</h3><ul>
+<li>使用typeof操作判断函数类型将返回<code>function</code></li>
+<li>函数更想是一个对象，有属性和方法(arguments.length, toString())</li>
+</ul>
+<h3 id="Arguments对象"><a href="#Arguments对象" class="headerlink" title="Arguments对象"></a>Arguments对象</h3><p>JavaScript函数有个内置的对象Arguments对象， arguments对象包含函数调用的参数数组。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">x &#x3D; findMax(1, 123, 500, 115, 44, 88);</span><br><span class="line"> </span><br><span class="line">function findMax() &#123;</span><br><span class="line">    var i, max &#x3D; arguments[0];</span><br><span class="line">    </span><br><span class="line">    if(arguments.length &lt; 2) return max;</span><br><span class="line"> </span><br><span class="line">    for (i &#x3D; 0; i &lt; arguments.length; i++) &#123;</span><br><span class="line">        if (arguments[i] &gt; max) &#123;</span><br><span class="line">            max &#x3D; arguments[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x &#x3D; sumAll(1, 123, 500, 115, 44, 88);</span><br><span class="line"> </span><br><span class="line">function sumAll() &#123;</span><br><span class="line">    var i, sum &#x3D; 0;</span><br><span class="line">    for (i &#x3D; 0; i &lt; arguments.length; i++) &#123;</span><br><span class="line">        sum +&#x3D; arguments[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="参数传递"><a href="#参数传递" class="headerlink" title="参数传递"></a>参数传递</h3><ul>
+<li>通过值传递函数参数，不会改变原来的值</li>
+<li>通过对象传递函数参数，在函数中修改对象的属性值，在函数外会修改对象的原来的初始值。</li>
+</ul>
+<h3 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h3><p><em>this</em> 关键字： 在Javascript中，this指向函数执行时的当前对象。</p>
+<h4 id="作为一个函数直接调用"><a href="#作为一个函数直接调用" class="headerlink" title="作为一个函数直接调用"></a>作为一个函数直接调用</h4><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function myFunction(a , b )&#123;</span><br><span class="line">    return a * b </span><br><span class="line">&#125;</span><br><span class="line">var x &#x3D; myFunction(1,2)</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="全局对象"><a href="#全局对象" class="headerlink" title="全局对象"></a>全局对象</h4><p>当函数没有被自身的对象调用时 this 的值就会变成全局对象。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function myFunction(a , b )&#123;</span><br><span class="line">    return a * b </span><br><span class="line">&#125;</span><br><span class="line">var x &#x3D; window.myFunction(1,2)</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="函数作为方法调用"><a href="#函数作为方法调用" class="headerlink" title="函数作为方法调用"></a>函数作为方法调用</h4><p>在 JavaScript 中你可以将函数定义为对象的方法。<br>以下实例创建了一个对象 (myObject), 对象有两个属性 (firstName 和 lastName), 及一个方法 (fullName):</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var myObject &#x3D; &#123;</span><br><span class="line">    firstName:&quot;John&quot;,</span><br><span class="line">    lastName: &quot;Doe&quot;,</span><br><span class="line">    fullName: function () &#123;</span><br><span class="line">        return this.firstName + &quot; &quot; + this.lastName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">myObject.fullName();         &#x2F;&#x2F; 返回 &quot;John Doe&quot;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="使用构造函数调用函数"><a href="#使用构造函数调用函数" class="headerlink" title="使用构造函数调用函数"></a>使用构造函数调用函数</h4><p>如果函数调用前使用了 new 关键字, 则是调用了构造函数。<br>这看起来就像创建了新的函数，但实际上 JavaScript 函数是重新创建的对象：</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 构造函数:</span><br><span class="line">function myFunction(arg1, arg2) &#123;</span><br><span class="line">    this.firstName &#x3D; arg1;</span><br><span class="line">    this.lastName  &#x3D; arg2;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">&#x2F;&#x2F; This    creates a new object</span><br><span class="line">var x &#x3D; new myFunction(&quot;John&quot;,&quot;Doe&quot;);</span><br><span class="line">x.firstName;                             &#x2F;&#x2F; 返回 &quot;John&quot;</span><br></pre></td></tr></table></figure></div>
+
+<h4 id="作为函数方法调用函数"><a href="#作为函数方法调用函数" class="headerlink" title="作为函数方法调用函数"></a>作为函数方法调用函数</h4><p>在 JavaScript 中, 函数是对象。JavaScript 函数有它的属性和方法。call() 和 apply() 是预定义的函数方法。 两个方法可用于调用函数，两个方法的第一个参数必须是对象本身。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function myFunction(a, b) &#123;</span><br><span class="line">    return a * b;</span><br><span class="line">&#125;</span><br><span class="line">myObject &#x3D; myFunction.call(myObject, 10, 2);     &#x2F;&#x2F; 返回 20</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function myFunction(a, b) &#123;</span><br><span class="line">    return a * b;</span><br><span class="line">&#125;</span><br><span class="line">myArray &#x3D; [10, 2];</span><br><span class="line">myObject &#x3D; myFunction.apply(myObject, myArray);  &#x2F;&#x2F; 返回 20</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<p>两个方法都使用了对象本身作为第一个参数。 两者的区别在于第二个参数： apply传入的是一个参数数组，也就是将多个参数组合成为一个数组传入，而call则作为call的参数传入（从第二个参数开始）。<br>在 JavaScript 严格模式(strict mode)下, 在调用函数时第一个参数会成为 this 的值， 即使该参数不是一个对象。<br>在 JavaScript 非严格模式(non-strict mode)下, 如果第一个参数的值是 null 或 undefined, 它将使用全局对象替代。</p>
+</blockquote>
+<h1 id="JavaScript-HTML-DOM"><a href="#JavaScript-HTML-DOM" class="headerlink" title="JavaScript HTML DOM"></a>JavaScript HTML DOM</h1><p>当网页加载时，浏览器一般会创建一个DOM（Documents Object Model）对象，通过JavaScript脚本能够改变HTML页面的元素内容，元素属性，CSS及对页面中所有事情做出反应。</p>
+<h2 id="查找HTML元素"><a href="#查找HTML元素" class="headerlink" title="查找HTML元素"></a>查找HTML元素</h2><ul>
+<li>通过id查找： documents.getElementById(“id”)</li>
+<li>通过类名去查找： documents.getElementByClassName(“className”)</li>
+<li>通过标签名查找： documents.getElementByTagName(“p”)</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;main&quot;&gt;</span><br><span class="line">&lt;p&gt; DOM 是非常有用的。&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p&gt;该实例展示了  &lt;b&gt;getElementsByTagName&lt;&#x2F;b&gt; 方法&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">var x&#x3D;document.getElementById(&quot;main&quot;);</span><br><span class="line">var y&#x3D;x.getElementsByTagName(&quot;p&quot;);</span><br><span class="line">document.write(&#39;id&#x3D;&quot;main&quot;元素中的第一个段落为：&#39; + y[0].innerHTML);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="修改HTML元素内容"><a href="#修改HTML元素内容" class="headerlink" title="修改HTML元素内容"></a>修改HTML元素内容</h2><ul>
+<li><p>改变HTML输出流： document.write(“你好”)</p>
+<blockquote>
+<p>在文档加载完成使用该方法，会修改整个页面</p>
+</blockquote>
+</li>
+<li><p>改变HTML元素的内容： documents.getElementById(“id”).innerHTML= 新的内容</p>
+</li>
+<li><p>改变HTML元素的属性： documents.getElementById(“id”).<em>attribute</em> = 新的属性</p>
+</li>
+</ul>
+<h2 id="改变HTML的样式"><a href="#改变HTML的样式" class="headerlink" title="改变HTML的样式"></a>改变HTML的样式</h2><ul>
+<li>改变HTML元素的样式: documents.getElementById(“id”).style.<em>property</em> = <em>新样式</em></li>
+</ul>
+<h2 id="HTML-DOM事件"><a href="#HTML-DOM事件" class="headerlink" title="HTML DOM事件"></a>HTML DOM事件</h2><p>对事件的反应时执行JavaScript脚本<br>常见的HTML事件例子：</p>
+<ul>
+<li>当用户点击鼠标时</li>
+<li>当网页已加载时</li>
+<li>当图像已加载时</li>
+<li>当鼠标移动到元素上时</li>
+<li>当输入字段被改变时</li>
+<li>当提交 HTML 表单时</li>
+<li>当用户触发按键时</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1 onclick&#x3D;&quot;this.innerHTML&#x3D;&#39;Ooops!&#39;&quot;&gt;点击文本!&lt;&#x2F;h1&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="HTML元素（节点）"><a href="#HTML元素（节点）" class="headerlink" title="HTML元素（节点）"></a>HTML元素（节点）</h2><h3 id="创建新的HTML元素"><a href="#创建新的HTML元素" class="headerlink" title="创建新的HTML元素"></a>创建新的HTML元素</h3><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;div1&quot;&gt;</span><br><span class="line">&lt;p id&#x3D;&quot;p1&quot;&gt;这是一个段落。&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p id&#x3D;&quot;p2&quot;&gt;这是另一个段落。&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">var para&#x3D;document.createElement(&quot;p&quot;);</span><br><span class="line">var node&#x3D;document.createTextNode(&quot;这是一个新段落。&quot;);</span><br><span class="line">para.appendChild(node);</span><br><span class="line"></span><br><span class="line">var element&#x3D;document.getElementById(&quot;div1&quot;);</span><br><span class="line">element.appendChild(para);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="删除已有的HTML元素"><a href="#删除已有的HTML元素" class="headerlink" title="删除已有的HTML元素"></a>删除已有的HTML元素</h3><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;div1&quot;&gt;</span><br><span class="line">&lt;p id&#x3D;&quot;p1&quot;&gt;这是一个段落。&lt;&#x2F;p&gt;</span><br><span class="line">&lt;p id&#x3D;&quot;p2&quot;&gt;这是另一个段落。&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">var parent&#x3D;document.getElementById(&quot;div1&quot;);</span><br><span class="line">var child&#x3D;document.getElementById(&quot;p1&quot;);</span><br><span class="line">parent.removeChild(child);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h1 id="JavaScript对象"><a href="#JavaScript对象" class="headerlink" title="JavaScript对象"></a>JavaScript对象</h1><h2 id="JavaScript对象的创建"><a href="#JavaScript对象的创建" class="headerlink" title="JavaScript对象的创建"></a>JavaScript对象的创建</h2><ul>
+<li>直接创建实例</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">person&#x3D;new Object();</span><br><span class="line">person.firstname&#x3D;&quot;John&quot;;</span><br><span class="line">person.lastname&#x3D;&quot;Doe&quot;;</span><br><span class="line">person.age&#x3D;50;</span><br><span class="line">person.eyecolor&#x3D;&quot;blue&quot;;</span><br></pre></td></tr></table></figure></div>
+
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">person&#x3D;&#123;firstname:&quot;John&quot;,lastname:&quot;Doe&quot;,age:50,eyecolor:&quot;blue&quot;&#125;;</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>使用对象构造器</li>
+</ul>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">定义对象构造器</span><br><span class="line">function person(firstname,lastname,age,eyecolor)</span><br><span class="line">&#123;</span><br><span class="line">    this.firstname&#x3D;firstname;</span><br><span class="line">    this.lastname&#x3D;lastname;</span><br><span class="line">    this.age&#x3D;age;</span><br><span class="line">    this.eyecolor&#x3D;eyecolor;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">创建新的对象实例</span><br><span class="line">var myFather&#x3D;new person(&quot;John&quot;,&quot;Doe&quot;,50,&quot;blue&quot;);</span><br><span class="line">var myMother&#x3D;new person(&quot;Sally&quot;,&quot;Rally&quot;,48,&quot;green&quot;);</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="JavaScript的for-in循环"><a href="#JavaScript的for-in循环" class="headerlink" title="JavaScript的for/in循环"></a>JavaScript的for/in循环</h2><p>for…in 循环中的代码块将针对每个属性执行一次。</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var person&#x3D;&#123;fname:&quot;John&quot;,lname:&quot;Doe&quot;,age:25&#125;; </span><br><span class="line"> </span><br><span class="line">for (x in person)</span><br><span class="line">&#123;</span><br><span class="line">    txt&#x3D;txt + person[x];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+
+
+</div></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/js/">js    </a></div><div class="post_share"></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2018/12/18/modify-rabbitmq-server-file-descriptors/"><img class="prev_cover lazyload" data-src="https://cdn.pixabay.com/photo/2017/11/11/08/45/winter-2938623_1280.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Previous Post</div><div class="prev_info"><span>rabbitmq file descriptors调整</span></div></a></div><div class="next-post pull_right"><a href="/2018/03/28/gRPC/"><img class="next_cover lazyload" data-src="https://cdn.pixabay.com/photo/2015/12/19/20/32/love-1100255_1280.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>gRPC框架简介</span></div></a></div></nav></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By Eric Qin</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="Read Mode"></i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="Dark Mode"></i></div><div id="rightside-config-show"><div id="rightside_config" title="Setting"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="Table of Contents" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="Back to top" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script></body></html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"><title>kubeadm源码分析 | 青柠檬老爸的blog</title><meta name="description" content="kubeadm源码分析"><meta name="keywords" content="kubernetes"><meta name="author" content="Eric Qin"><meta name="copyright" content="Eric Qin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/lemon.png"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="kubeadm源码分析"><meta name="twitter:description" content="kubeadm源码分析"><meta name="twitter:image" content="https://cdn.pixabay.com/photo/2017/11/11/08/45/winter-2938623_1280.jpg"><meta property="og:type" content="article"><meta property="og:title" content="kubeadm源码分析"><meta property="og:url" content="http://yoursite.com/2020/03/18/kubeadm-source-analysis/"><meta property="og:site_name" content="青柠檬老爸的blog"><meta property="og:description" content="kubeadm源码分析"><meta property="og:image" content="https://cdn.pixabay.com/photo/2017/11/11/08/45/winter-2938623_1280.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
+
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://yoursite.com/2020/03/18/kubeadm-source-analysis/"><link rel="prev" title="基于linux bridge的vxlan测试" href="http://yoursite.com/2020/03/18/linux-bridge-vxlan%E5%AE%9E%E6%96%BD/"><link rel="next" title="GO语言学习---package" href="http://yoursite.com/2020/03/18/GO-package/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  isHome: false,
+  isPost: true
+  
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><header> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">青柠檬老爸的blog</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div></div></span></div></header><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/lemon.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">16</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">13</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">Catalog</div><div class="sidebar-toc__content"><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#kubeadm源码分析"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">kubeadm源码分析</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#kubeadm-cmd入口"><span class="toc_mobile_items-number">1.1.</span> <span class="toc_mobile_items-text">kubeadm cmd入口</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#kubeadm-init"><span class="toc_mobile_items-number">1.2.</span> <span class="toc_mobile_items-text">kubeadm init</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#kubeadm-join"><span class="toc_mobile_items-number">1.3.</span> <span class="toc_mobile_items-text">kubeadm join</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#kubeadm-reset"><span class="toc_mobile_items-number">1.4.</span> <span class="toc_mobile_items-text">kubeadm reset</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#kubeadm-token"><span class="toc_mobile_items-number">1.5.</span> <span class="toc_mobile_items-text">kubeadm token</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#kubeadm源码分析"><span class="toc-number">1.</span> <span class="toc-text">kubeadm源码分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#kubeadm-cmd入口"><span class="toc-number">1.1.</span> <span class="toc-text">kubeadm cmd入口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kubeadm-init"><span class="toc-number">1.2.</span> <span class="toc-text">kubeadm init</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kubeadm-join"><span class="toc-number">1.3.</span> <span class="toc-text">kubeadm join</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kubeadm-reset"><span class="toc-number">1.4.</span> <span class="toc-text">kubeadm reset</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#kubeadm-token"><span class="toc-number">1.5.</span> <span class="toc-text">kubeadm token</span></a></li></ol></li></ol></div></div></div><main id="content-outer"><div id="top-container" style="background-image: url(https://cdn.pixabay.com/photo/2017/11/11/08/45/winter-2938623_1280.jpg)"><div id="post-info"><div id="post-title"><div class="posttitle">kubeadm源码分析</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> Created 2020-03-18<span class="post-meta__separator">|</span><i class="fa fa-history fa-fw" aria-hidden="true"></i> Updated 2020-03-17</time><div class="post-meta-wordcount"><div class="post-meta-pv-cv"><span><i class="fa fa-eye post-meta__icon fa-fw" aria-hidden="true"> </i>Post View:</span><span id="busuanzi_value_page_pv"></span></div></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><h1 id="kubeadm源码分析"><a href="#kubeadm源码分析" class="headerlink" title="kubeadm源码分析"></a>kubeadm源码分析</h1><h2 id="kubeadm-cmd入口"><a href="#kubeadm-cmd入口" class="headerlink" title="kubeadm cmd入口"></a>kubeadm cmd入口</h2><ul>
+<li>kubeadm代码的主要位置为cmd/kubeadm中</li>
+<li>使用pflag, cobra的库实现的命令行入口,具体可见<a href="https://o-my-chenjian.com/2017/09/20/Using-Cobra-With-Golang/" target="_blank" rel="noopener" title="Golang之使用Cobra">https://o-my-chenjian.com/2017/09/20/Using-Cobra-With-Golang/</a>；<a href="http://tonybai.com/2015/07/01/config-solutions-for-golang-app/" target="_blank" rel="noopener">http://tonybai.com/2015/07/01/config-solutions-for-golang-app/</a></li>
+<li>在<code>cmd/kubeadm/app/cmd/cmd.go</code>文件中，定义了各个kubeadm命令的子函数<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">python</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func NewKubeadmCommand(f cmdutil.Factory, <span class="keyword">in</span> io.Reader, out, err io.Writer) *cobra.Command &#123;</span><br><span class="line">    cmds.AddCommand(NewCmdCompletion(out, <span class="string">""</span>))</span><br><span class="line">    cmds.AddCommand(NewCmdInit(out)) //定义了kubeadm init子命令的入口函数</span><br><span class="line">    cmds.AddCommand(NewCmdJoin(out)) //定义了kubeadm join子命令的入口函数</span><br><span class="line">    cmds.AddCommand(NewCmdReset(out)) //定义了kubeadm reset子命令的入口函数</span><br><span class="line">    cmds.AddCommand(NewCmdVersion(out))</span><br><span class="line">    cmds.AddCommand(NewCmdToken(out, err))</span><br></pre></td></tr></table></figure></div></li>
+<li>然后执行cmd.Execute方法<a id="more"></a>
+<h2 id="kubeadm-init"><a href="#kubeadm-init" class="headerlink" title="kubeadm init"></a>kubeadm init</h2></li>
+<li>kubeadm init代码主要位置为 <code>cmd/kubeadm/app/cmd/init.go</code>文件中。</li>
+<li>当程序执行kubeadm init时，命令行参数都保存在<code>MasterConfiguration</code>对象中，然后依次执行<code>Init</code>对象的<code>Validate,Run</code>方法，执行kubeadm init命令。</li>
+<li>在<code>Validate</code>方法中对kubeadm init子命令的参数进行进一步的验证，这里需要注意的是，kubeadm init 命令行参数如果使用了<code>config</code>时，不能在传递其他参数</li>
+<li>在<code>Run</code>方法中, 主要执行以下几个步骤:<ul>
+<li>构建证书ssl的证书文件，生成证书时先判断<code>/etc/kubernetes/pki</code>目录下证书是否存在,如果存在则直接加载,若不存在则生成证书;主要生成以下几个证书<code>ca.crt</code>,<code>apiserver.crt</code>,<code>apiserver-kubelet-client.crt</code>,<code>sa.pub</code>等。</li>
+<li>生成kubeconfig文件, 使用apiserver的证书ca.crt生成admin，kubelet，scheduler，Controller的kubeconfig，其中admin和kubelet的用户即Organization分别为system:master, system:nodes</li>
+<li>生成静态pod的manifest文件, 根据cfg中的参数分别生成apiserver，scheduler，controller，proxy的静态podmanifest文件，使得kubelet启动个组件容器。</li>
+<li>使用admin的kubeconfig文件构建client对象，检查apiserver的是否启动成功，成功则继续，否则一直等待，直到500s后超时</li>
+<li>给master节点打上node标签</li>
+<li>为bootstrap token生成secret,该secret对象包含bootstrap的tokenId，tokenSecret及time，description，usages</li>
+<li>为bootstrap生成名为cluster-info的configmap对象，保持cluster信息</li>
+<li>创建必要serviceAccount，即kube-dns和kube-proxy</li>
+<li>创建RBAC rules</li>
+<li>通过deamonset创建kubeProxy组件</li>
+<li>通过deployment创建kubeDNS组件<h2 id="kubeadm-join"><a href="#kubeadm-join" class="headerlink" title="kubeadm join"></a>kubeadm join</h2></li>
+</ul>
+</li>
+<li>kubeadm join代码的主要位置为<code>cmd/kubeadm/app/cmd/join.go</code>文件中</li>
+<li>当程序执行kubeadm join时，命令行参数都保存在对象NodeConfiguration中，然后一次执行<code>Join</code>对象的<code>Validate</code>,<code>Run</code>方法，执行kubeadm join命令</li>
+<li>在<code>Validata</code>方法中，进一步验证kubeadm join的有效性，，这里需要注意的是，kubeadm join命令行参数如果使用了<code>config</code>时，不能在传递其他参数。 同时传递token参数等同于discovery-token和tls-bootstrap-token</li>
+<li>在<code>Run</code>方法中，主要执行以下步骤：<ul>
+<li>根据APIServers的地址，生产kubeconfig对象获取cluster-info的configmap对象，获取kubernetes集群的信息，其中kubeconfig的中仅仅指定了server地址，InsecureSkipTlsVerify为true。<br><a href="https://i.loli.net/2020/03/17/QwUMzDgT8H7iZv6.png" target="_blank" rel="noopener" data-fancybox="group" data-caption="kubeadm_join_kubeconfig.png" class="fancybox"><img alt="kubeadm_join_kubeconfig.png" title="kubeadm_join_kubeconfig.png" data-src="https://i.loli.net/2020/03/17/QwUMzDgT8H7iZv6.png" class="lazyload"></a></li>
+<li>根据bootstrap token基于jws（json web signature）验证cluster-info中的集群信息</li>
+<li>根据cluster中的ca，bootstrap token， tls-bootstrap-token-user的user，重新生产tls bootstrap的kubeconfig对象</li>
+<li>利用tls bootstrap的kubeconfig对象向APIServer申请该node的证书和私钥，并将kubeconfig保存至<code>/etc/kubernetes/kubelet.conf</code>文件中，同时current context对象修改为使用证书和私钥的context：kubelet-csr与kubeapi-server通信</li>
+</ul>
+</li>
+<li>至此kubeadm join执行完成，可以通过<code>kubectl get node</code>获取到该node信息<h2 id="kubeadm-reset"><a href="#kubeadm-reset" class="headerlink" title="kubeadm reset"></a>kubeadm reset</h2></li>
+<li>kubeadm reset子命令的代码位置为<code>cmd/kubeadm/app/cmd/reset.go</code>文件中</li>
+<li>当程序执行<code>kubeadm reset</code>操作时，会执行函数<code>NewCmdReset</code>方法，并将参数保存到对象Reset中，并执行<code>Run</code>方法中，主要执行以下步骤：<ul>
+<li>判断系统否是为system，是的话停止kubelet service</li>
+<li>unmount 目录<code>/var/libe/kubelet</code>下的所有mount点</li>
+<li>判断docker服务是否运行，如果运行的话，停止容器名前缀为k8s_的容器</li>
+<li>删除<code>/var/lib/kubelet</code>,<code>/etc/cni/net.d</code>,<code>/var/lib/dockershim</code>及<code>/var/lib/etcd</code>目录下的全部文件</li>
+</ul>
+</li>
+<li>kubeadm resest操作执行完成<h2 id="kubeadm-token"><a href="#kubeadm-token" class="headerlink" title="kubeadm token"></a>kubeadm token</h2></li>
+<li>kubeadm token子命令的代码位于<code>cmd/kubeadm/cmd/token.go</code>文件中。</li>
+<li>kubeadm token子命令的入口在函数<code>NewCmdToken</code>中，在<code>NewCmdToken</code>函数中又定义了<code>create</code>,<code>delete</code>,<code>generate</code>和<code>list</code>子命令。</li>
+<li>当程序执行<code>kubeadm token create</code>子命令时，主要执行以下步骤：<ul>
+<li>根据传入的参数<strong>kubeconfig</strong>（默认值为<strong>/etc/kubernetes/admin.conf</strong>）生成client对象</li>
+<li>如果传入的token值为空，则随机生成bootstrap token，否则验证传入的token值格式是否正确。</li>
+<li>使用client创建或者更新类型为bootstrap.kubernetes.io/token的secret对象</li>
+</ul>
+</li>
+<li>当程序执行<code>kubeadm token delete</code>子命令时， 同理利用<strong>kubeconfig</strong>创建client对象，然后通过client对象删除k8s的secret对象。</li>
+<li>当程序执行<code>kubeadm token list</code>子命令时，同理调用secret list命令获取bootstrap token</li>
+<li>当程序执行<code>kubeadm token generate</code>子命令时，只生成随机的bootstrap token，但是不创建bootstarp的secret对象。</li>
+</ul>
+</div></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/kubernetes/">kubernetes    </a></div><div class="post_share"></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2020/03/18/linux-bridge-vxlan%E5%AE%9E%E6%96%BD/"><img class="prev_cover lazyload" data-src="https://cdn.pixabay.com/photo/2016/01/22/10/53/books-1155565_1280.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Previous Post</div><div class="prev_info"><span>基于linux bridge的vxlan测试</span></div></a></div><div class="next-post pull_right"><a href="/2020/03/18/GO-package/"><img class="next_cover lazyload" data-src="https://cdn.pixabay.com/photo/2015/10/18/18/07/android-994910_1280.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Next Post</div><div class="next_info"><span>GO语言学习---package</span></div></a></div></nav></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By Eric Qin</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="Read Mode"></i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="Dark Mode"></i></div><div id="rightside-config-show"><div id="rightside_config" title="Setting"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="Table of Contents" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="Back to top" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script></body></html>

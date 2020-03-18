@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5"><title>使用hexo，github pages部署博客 | 青柠檬老爸的blog</title><meta name="description" content="使用hexo，github pages部署博客"><meta name="keywords" content="hexo,github pages"><meta name="author" content="Eric Qin"><meta name="copyright" content="Eric Qin"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/lemon.png"><link rel="preconnect" href="//cdn.jsdelivr.net"><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin><link rel="preconnect" href="//busuanzi.ibruce.info"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="使用hexo，github pages部署博客"><meta name="twitter:description" content="使用hexo，github pages部署博客"><meta name="twitter:image" content="https://cdn.pixabay.com/photo/2017/11/11/08/45/winter-2938623_1280.jpg"><meta property="og:type" content="article"><meta property="og:title" content="使用hexo，github pages部署博客"><meta property="og:url" content="http://yoursite.com/2017/12/15/hello-world/"><meta property="og:site_name" content="青柠檬老爸的blog"><meta property="og:description" content="使用hexo，github pages部署博客"><meta property="og:image" content="https://cdn.pixabay.com/photo/2017/11/11/08/45/winter-2938623_1280.jpg"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>const autoChangeMode = 'false'
+var t = Cookies.get("theme");
+if (autoChangeMode == '1'){
+const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+if (t === undefined){
+  if (isLightMode) activateLightMode()
+  else if (isDarkMode) activateDarkMode()
+  else if (isNotSpecified || hasNoSupport){
+    console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+    now = new Date();
+    hour = now.getHours();
+    isNight = hour < 6 || hour >= 18
+    isNight ? activateDarkMode() : activateLightMode()
+}
+} else if (t == 'light') activateLightMode()
+else activateDarkMode()
+
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="canonical" href="http://yoursite.com/2017/12/15/hello-world/"><link rel="prev" title="contiv netplugin源码分析（1）" href="http://yoursite.com/2017/12/16/netplugin-source-analysis-1/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://xxx/","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简"},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  bookmark: {
+    title: 'Snackbar.bookmark.title',
+    message_prev: 'Press',
+    message_next: 'to bookmark this page'
+  },
+  runtime_unit: 'days',
+  runtime: true,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: undefined,
+  baiduPush: false,
+  isHome: false,
+  isPost: true
+  
+}</script><meta name="generator" content="Hexo 4.2.0"></head><body><header> <div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">青柠檬老爸的blog</a></span><span class="toggle-menu pull_right close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div></div></span></div></header><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/lemon.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">Articles</div><div class="length_num">16</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">Tags</div><div class="length_num">13</div></a></div></div></div><hr><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> About</span></a></div></div></div><div id="mobile-sidebar-toc"><div class="toc_mobile_headline">Catalog</div><div class="sidebar-toc__content"><ol class="toc_mobile_items"><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#环境安装"><span class="toc_mobile_items-number">1.</span> <span class="toc_mobile_items-text">环境安装</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#注册github"><span class="toc_mobile_items-number">2.</span> <span class="toc_mobile_items-text">注册github</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-1"><a class="toc_mobile_items-link" href="#安装hexo"><span class="toc_mobile_items-number">3.</span> <span class="toc_mobile_items-text">安装hexo</span></a><ol class="toc_mobile_items-child"><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#hexo初始安装"><span class="toc_mobile_items-number">3.1.</span> <span class="toc_mobile_items-text">hexo初始安装</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#初始化hexo"><span class="toc_mobile_items-number">3.2.</span> <span class="toc_mobile_items-text">初始化hexo</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#基本的hexo命令"><span class="toc_mobile_items-number">3.3.</span> <span class="toc_mobile_items-text">基本的hexo命令</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#配置hexo"><span class="toc_mobile_items-number">3.4.</span> <span class="toc_mobile_items-text">配置hexo</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#添加新文章"><span class="toc_mobile_items-number">3.5.</span> <span class="toc_mobile_items-text">添加新文章</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#注意事项"><span class="toc_mobile_items-number">3.6.</span> <span class="toc_mobile_items-text">注意事项:</span></a></li><li class="toc_mobile_items-item toc_mobile_items-level-2"><a class="toc_mobile_items-link" href="#遇到的问题"><span class="toc_mobile_items-number">3.7.</span> <span class="toc_mobile_items-text">遇到的问题</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true">     </i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#环境安装"><span class="toc-number">1.</span> <span class="toc-text">环境安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注册github"><span class="toc-number">2.</span> <span class="toc-text">注册github</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装hexo"><span class="toc-number">3.</span> <span class="toc-text">安装hexo</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo初始安装"><span class="toc-number">3.1.</span> <span class="toc-text">hexo初始安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#初始化hexo"><span class="toc-number">3.2.</span> <span class="toc-text">初始化hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本的hexo命令"><span class="toc-number">3.3.</span> <span class="toc-text">基本的hexo命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置hexo"><span class="toc-number">3.4.</span> <span class="toc-text">配置hexo</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#添加新文章"><span class="toc-number">3.5.</span> <span class="toc-text">添加新文章</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意事项"><span class="toc-number">3.6.</span> <span class="toc-text">注意事项:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遇到的问题"><span class="toc-number">3.7.</span> <span class="toc-text">遇到的问题</span></a></li></ol></li></ol></div></div></div><main id="content-outer"><div id="top-container" style="background-image: url(https://cdn.pixabay.com/photo/2017/11/11/08/45/winter-2938623_1280.jpg)"><div id="post-info"><div id="post-title"><div class="posttitle">使用hexo，github pages部署博客</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar fa-fw" aria-hidden="true"></i> Created 2017-12-15<span class="post-meta__separator">|</span><i class="fa fa-history fa-fw" aria-hidden="true"></i> Updated 2018-03-13</time><div class="post-meta-wordcount"><div class="post-meta-pv-cv"><span><i class="fa fa-eye post-meta__icon fa-fw" aria-hidden="true"> </i>Post View:</span><span id="busuanzi_value_page_pv"></span></div></div></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><p>使用github pages，hexo部署博客记录</p>
+<a id="more"></a>
+<h1 id="环境安装"><a href="#环境安装" class="headerlink" title="环境安装"></a>环境安装</h1><p>安装node.js和git</p>
+<h1 id="注册github"><a href="#注册github" class="headerlink" title="注册github"></a>注册github</h1><ol>
+<li>注册github</li>
+<li>创建代码库<br>创建repo:username.github.io</li>
+<li>开启gh-pages功能<br>在setting点击 <code>automatic page generator</code> ,如果配置没有问题的话，那么大约15分钟后，<code>username.github.io</code>就可以访问了</li>
+</ol>
+<h1 id="安装hexo"><a href="#安装hexo" class="headerlink" title="安装hexo"></a>安装hexo</h1><h2 id="hexo初始安装"><a href="#hexo初始安装" class="headerlink" title="hexo初始安装"></a>hexo初始安装</h2><p>在cmd命令行中输入</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-cli -g</span><br><span class="line">npm install hexo</span><br></pre></td></tr></table></figure></div>
+
+<p>执行以下命令检查hexo是否安装完成</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo -v</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="初始化hexo"><a href="#初始化hexo" class="headerlink" title="初始化hexo"></a>初始化hexo</h2><p>在cmd命令行中输入</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure></div>
+<p>之后npm将会自动安装你需要的组件，只需要等待npm操作即可。</p>
+<h2 id="基本的hexo命令"><a href="#基本的hexo命令" class="headerlink" title="基本的hexo命令"></a>基本的hexo命令</h2><div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo g #生成html文件</span><br><span class="line">hexo s #启动预览hexo server,通过浏览器访问http:&#x2F;&#x2F;localhost:4000访问</span><br><span class="line">hexo d #部署html到远程github</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="配置hexo"><a href="#配置hexo" class="headerlink" title="配置hexo"></a>配置hexo</h2><p>可以在_config.yml文件中修改大部分的配置<br>具体可以见<a href="https://hexo.io/zh-cn/docs/configuration.html" target="_blank" rel="noopener">hexo官网</a><br>常用配置如下：</p>
+<blockquote>
+<p>title: 青柠檬老爸的blog #网站主题<br>subtitle: openstacker   #网站子主题<br>description: 总以为可以慢慢长大。。。 #个人描述<br>author: Eric Qin        #作者<br>language: zh-Hans       #语言<br>timezone:<br>theme: next             #主题，推荐使用next<br>deploy:                 #远端git仓库<br>  type: git<br>  repo: <a href="mailto:git@github.com">git@github.com</a>:qinweiwei/qinweiwei.github.io.git<br>  branch: master<br>avatar: /images/lemon.jpg #作者头像</p>
+</blockquote>
+<p>主题的相关配置具体可见<a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">next官网</a></p>
+<h2 id="添加新文章"><a href="#添加新文章" class="headerlink" title="添加新文章"></a>添加新文章</h2><ol>
+<li>在hexo的source文件夹下，所有文章都会保存到<code>_post</code>文件夹下，只要在<code>_post</code>文件下新建<em>md</em>类型的文件即可。</li>
+<li>执行<code>hexo g</code>进行渲染</li>
+<li>在新建的文章头需要添加yml信息<blockquote>
+<hr>
+<p>title: 使用hexo，github pages部署博客<br>tags:</p>
+</blockquote>
+<ul>
+<li>hexo</li>
+<li>github pages</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项:"></a>注意事项:</h2><ol>
+<li><p>默认next没有分类和标签，需要执行</p>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo new page tags</span><br><span class="line">hexo new page categories</span><br></pre></td></tr></table></figure></div>
+
+<ol>
+<li>Next的主题配置文件中配置相应的menu和menu_icons</li>
+<li>执行 hexo new page tags 或 hexo new page categories 创建标签页或分类页,会在source文件夹下生成tags或categories目录,目录下有index.md文件</li>
+<li>编辑index.md文件<br><a href="https://i.loli.net/2020/03/17/jdDOCIb1voPrtc9.png" target="_blank" rel="noopener" data-fancybox="group" data-caption="1.png" class="fancybox"><img alt="1.png" title="1.png" data-src="https://i.loli.net/2020/03/17/jdDOCIb1voPrtc9.png" class="lazyload"></a></li>
+</ol>
+</li>
+<li><p>如何设置「阅读全文」？<br>在文章中使用 <code>&lt;!-- more --&gt;</code> 手动进行截断，Hexo 提供的方式</p>
+</li>
+</ol>
+<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><ol>
+<li>执行<code>hexo g</code>时报以下错误，是由于post目录下的md文件中可能存在一些与md冲突的字符，比如单一的<code>*</code>，<code></code>等，对于这类的字符最好通过引用的方式使用</li>
+</ol>
+<div class="code-area-wrap"><div class="highlight-tools"><i class="fa fa-angle-down code-expand" aria-hidden="true"></i><div class="code_lang">Code</div><div class="copy-notice"></div><i class="fa fa-clipboard" aria-hidden="true"></i></div><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">INFO  Start processing</span><br><span class="line">FATAL Something&#39;s wrong. Maybe you can find the solution here: http:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;troubleshooting.html</span><br><span class="line">Template render error: (unknown path) [Line 6, Column 8]</span><br><span class="line">  unexpected token: &#x2F;</span><br><span class="line">    at Object.exports.prettifyError (D:\work\workspace\hexo\blog\node_modules\hexo\node_modules\nunjucks\src\lib.js:34:15)</span><br><span class="line">    at Obj.extend.render (D:\work\workspace\hexo\blog\node_modules\hexo\node_modules\nunjucks\src\environment.js:469:27)</span><br><span class="line">    at Obj.extend.renderString (D:\work\workspace\hexo\blog\node_modules\hexo\node_modules\nunjucks\src\environment.js:327:21)</span><br><span class="line">    at D:\work\workspace\hexo\blog\node_modules\hexo\lib\extend\tag.js:66:9</span><br><span class="line">    at Promise._execute (D:\work\workspace\hexo\blog\node_modules\hexo\node_modules\bluebird\js\release\debuggability.js:299:9)</span><br><span class="line">    at Promise._resolveFromExecutor (D:\work\workspace\hexo\blog\node_modules\hexo\node_modules\bluebird\js\release\promise.js:481:18)</span><br><span class="line">    at new Promise (D:\work\workspace\hexo\blog\node_modules\hexo\node_modules\bluebird\js\release\promise.js:77:14)</span><br><span class="line">    at Tag.render (D:\work\workspace\hexo\blog\node_modules\hexo\lib\extend\tag.js:64:10)</span><br></pre></td></tr></table></figure></div>
+
+
+
+</div></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/hexo/">hexo    </a><a class="post-meta__tags" href="/tags/github-pages/">github pages    </a></div><div class="post_share"></div></div><nav class="pagination_post" id="pagination"><div class="prev-post pull-full"><a href="/2017/12/16/netplugin-source-analysis-1/"><img class="prev_cover lazyload" data-src="https://cdn.pixabay.com/photo/2018/05/15/17/49/dont-give-up-3403779_1280.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">Previous Post</div><div class="prev_info"><span>contiv netplugin源码分析（1）</span></div></a></div></nav></div></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2020 By Eric Qin</div><div class="framework-info"><span>Driven </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="Read Mode"></i><i class="fa fa-plus" id="font_plus" title="Increase font size"></i><i class="fa fa-minus" id="font_minus" title="Decrease font size"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="Traditional Chinese and Simplified Chinese Conversion" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="Dark Mode"></i></div><div id="rightside-config-show"><div id="rightside_config" title="Setting"><i class="fa fa-cog" aria-hidden="true"></i></div><i class="fa fa-list-ul close" id="mobile-toc-button" title="Table of Contents" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="Back to top" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script></body></html>
